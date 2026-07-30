@@ -1,0 +1,291 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+/* Blanket reset. The overflow and z-index here are deliberate: nothing on a
+   loading screen should ever produce a scrollbar, and the very high base
+   z-index gives every panel below room to sit above the slideshow while still
+   staying under the panels that override it (...97 upwards). Any element that
+   does need to scroll has to re-declare overflow itself - .info-container
+   does exactly that. */
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 99999999996;
+}
+
+body.mrfrost-loading-background {
+  font-family: "Poppins", sans-serif;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #1e1e1e;
+}
+
+.mrfrost-loading-slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* All slides are stacked on top of each other and hidden; main.js reveals one
+   at a time by adding .fx. The two transition durations are read in pairs with
+   transition-property above: 3s for the cross-fade, 10s for the slow zoom.
+   main.js switches slides every 7s, which sits between the two on purpose. */
+.mrfrost-loading-slideshow img {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 3s, 10s;
+  transform-origin: bottom left;
+}
+
+/* Vary the corner each slide zooms away from so consecutive slides do not all
+   drift the same way. The three patterns overlap (slide 1 matches all of
+   them); they all have the same specificity, so the last matching rule wins.
+   Slides matched by none of them keep the bottom left default above. */
+.mrfrost-loading-slideshow :nth-child(2n + 1) {
+  transform-origin: top right;
+}
+
+.mrfrost-loading-slideshow :nth-child(3n + 1) {
+  transform-origin: top left;
+}
+
+.mrfrost-loading-slideshow :nth-child(4n + 1) {
+  transform-origin: bottom right;
+}
+
+.mrfrost-loading-slideshow .fx {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.mrfrost-loading-overlay {
+  position: absolute;
+  top: 66.5%;
+  left: 1.5%;
+  transform: translateY(-50%);
+  z-index: 99999999998;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  width: 100%;
+  max-width: 530px;
+  border-radius: 15px;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: white;
+  text-align: center;
+  height: 30%;
+}
+
+.mrfrost-loading-overlay .info-button,
+.mrfrost-loading-overlay .discord-button {
+  flex: 1 0 40%;
+}
+
+.mrfrost-loading-overlay-loading {
+  position: absolute;
+  top: 90.2%;
+  left: 1.5%;
+  transform: translateY(-50%);
+  z-index: 99999999998;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  width: 100%;
+  max-width: 97.2%;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+}
+
+.mrfrost-loading-logo {
+  width: 120px;
+  margin-top: -5%;
+}
+
+.mrfrost-loading-header {
+  font-size: 35px;
+  line-height: 40px;
+  text-align: center;
+  flex: 100%;
+}
+
+.mrfrost-loading-desc {
+  font-size: 16px;
+  line-height: 30px;
+  text-align: center;
+  color: #ddd;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+.mrfrost-loading-loading {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.mrfrost-loading-loading .loading-bar {
+  width: 100%;
+  height: 20px;
+  background: #141414;
+  border-radius: 15px;
+  margin-right: 25px;
+  padding: 4px;
+}
+
+/* width is overwritten by main.js on every loadProgress message; the 60% here
+   is only what is rendered until the first one arrives. #904BDE is the accent
+   colour, reused by the buttons and the icon hover state below. */
+.mrfrost-loading-loading .loading-bar-inner {
+  transition: 0.2s ease-in-out;
+  width: 60%;
+  height: 12px;
+  border-radius: 10px;
+  background: #904BDE;
+}
+
+.mrfrost-loading-loading .loading-amount {
+  width: 60px;
+  text-align: center;
+}
+
+.mrfrost-loading-music-controls {
+  position: absolute;
+  top: 2.5%;
+  right: 1.4%;
+  z-index: 99999999998;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  width: 150px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.mrfrost-loading-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+  transition: color 0.3s ease-in-out;
+}
+
+.mrfrost-loading-button:hover {
+  color: #ddd;
+}
+
+.mrfrost-loading-button:hover .material-icons {
+  color: #904BDE;
+}
+
+.mrfrost-loading-button i.material-icons {
+  vertical-align: middle;
+}
+
+.mrfrost-loading-button i.material-icons.stop-icon {
+  color: #F55547;
+}
+
+.mrfrost-loading-button i.material-icons.stop-icon:hover {
+  color: #ddd;
+}
+
+/* Hidden until the info button is clicked - main.js toggles display between
+   none and block, so this initial value has to stay "none". The overflow pair
+   undoes the blanket overflow: hidden from the reset so long info text can
+   scroll vertically. */
+.info-container {
+  position: fixed;
+  top: 11.5%;
+  right: 1.4%;
+  width: 67%;
+  height: 70%;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  border-radius: 15px;
+  padding: 20px;
+  display: none;
+  z-index: 99999999999;
+  overflow: hidden;
+  overflow-y: auto;
+  color: #ddd;
+}
+
+.discord-button,
+.info-button {
+  background: #904BDE;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.discord-button:hover,
+.info-button:hover {
+  background: #5e3191;
+}
+
+/* Same pattern as .info-container, but main.js toggles this one between none
+   and flex, so the display value here must stay "none" and the flex layout
+   properties below only take effect once it is shown. */
+#discord-widget {
+  position: absolute;
+  top: 2.5%;
+  left: 1.5%;
+  z-index: 99999999998;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  width: 100%;
+  max-width: 530px;
+  border-radius: 15px;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  height: 45.5%;
+}
+
+.mrfrosthud-playername {
+  position: absolute;
+  top: 2.5%;
+  right: 10.5%;
+  z-index: 99999999998;
+  background: #1e1e1e99;
+  backdrop-filter: blur(50px);
+  width: 250px;
+  max-width: 250px;
+  height: 46px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  color: #ddd;
+  cursor: default;
+}

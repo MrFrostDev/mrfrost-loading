@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>MrFrost</title>
+		<link
+			rel="stylesheet"
+			href="assets/css/style.css" />
+		<!--
+			Loaded from the internet, not from the resource. The music control
+			buttons below use Material Icons ligatures, so if this stylesheet
+			cannot be reached the buttons show the literal words "play_arrow",
+			"volume_up" and "skip_next". style.css pulls in the Poppins font
+			the same way.
+		-->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	</head>
+
+	<body class="mrfrost-loading-background">
+		<!--
+			The track named here is only the fallback for the initial autoplay:
+			main.js replaces the element's src with a randomly picked entry from
+			its own musicSources list as soon as it runs. The audio files are
+			not shipped with this resource - see assets/README.md.
+		-->
+		<audio
+			class="mrfrost-loading-music"
+			loop
+			autoplay>
+			<source
+				src="assets/audio/noncopyright.mp3"
+				type="audio/mp3" />
+		</audio>
+
+		<!--
+			Background slideshow. main.js walks these by index rather than by
+			filename, so images can be added or removed here freely as long as
+			at least three remain (the cross-fade keeps two visible at a time).
+			The screenshots themselves are not shipped - see assets/README.md.
+		-->
+		<div class="mrfrost-loading-slideshow">
+			<img src="assets/img/loading/loading1.jpg" />
+			<img src="assets/img/loading/loading2.jpg" />
+			<img src="assets/img/loading/loading3.jpg" />
+			<img src="assets/img/loading/loading4.jpg" />
+			<img src="assets/img/loading/loading5.jpg" />
+			<img src="assets/img/loading/loading6.jpg" />
+			<img src="assets/img/loading/loading7.jpg" />
+			<img src="assets/img/loading/loading8.jpg" />
+			<img src="assets/img/loading/loading9.jpg" />
+			<img src="assets/img/loading/loading10.jpg" />
+			<img src="assets/img/loading/loading11.jpg" />
+		</div>
+
+		<!--
+			Hidden by default (CSS sets display: none) and toggled by the
+			Discord button. The id in the URL is a Discord guild id and must be
+			replaced with your own; the guild also has to have its server widget
+			enabled, otherwise Discord serves an error page inside the iframe.
+		-->
+		<div id="discord-widget">
+			<iframe
+				src="https://discord.com/widget?id=1048024138083745812&theme=dark"
+				width="100%"
+				height="100%"
+				allowtransparency="true"
+				frameborder="0"
+				sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+		</div>
+
+		<div class="mrfrost-loading-overlay">
+      <!-- Placeholder logo: a plain black SVG, meant to be swapped for your own. -->
+      <img src="assets/img/logo.svg" alt="MrFrost" class="mrfrost-loading-logo" />
+      <h1 class="mrfrost-loading-header">MrFrost</h1>
+      <p class="mrfrost-loading-desc">Your server tagline goes here<br /></p>
+      <button class="info-button">Mehr Infos</button>
+      <button class="discord-button">Discord</button>
+    </div>
+
+
+		<div class="info-container">
+      Hier findest du bald mehr!
+    </div>
+
+		<div class="mrfrost-loading-overlay-loading">
+			<div class="mrfrost-loading-loading">
+				<div class="loading-bar">
+					<div class="loading-bar-inner"></div>
+				</div>
+				<div class="loading-amount">0%</div>
+			</div>
+		</div>
+
+    <!--
+      Filled in by main.js from window.nuiHandoverData.name, which server.lua
+      supplies during playerConnecting. The text below is only what is shown
+      until that happens (and stays if no handover data arrives).
+    -->
+    <div class="mrfrosthud-playername">
+      <span class="namePlaceholder">Dein Name</span>
+    </div>
+
+		<div class="mrfrost-loading-music-controls">
+			<button class="mrfrost-loading-button mrfrost-loading-play-pause">
+				<i class="material-icons">play_arrow</i>
+			</button>
+			<button class="mrfrost-loading-button mrfrost-loading-mute">
+				<i class="material-icons">volume_up</i>
+			</button>
+			<button class="mrfrost-loading-button mrfrost-loading-skip">
+				<i class="material-icons">skip_next</i>
+			</button>
+		</div>
+
+		<!--
+			defer is required: main.js queries for elements at top level, so it
+			must not run before the markup above exists. Deferred scripts still
+			run before DOMContentLoaded fires, so the listener main.js registers
+			for that event is not missed.
+		-->
+		<script
+			src="assets/js/main.js"
+			defer></script>
+	</body>
+</html>
